@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  python-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/root
+    ports:
+      - "8888:8888"
+    platform: linux/amd64
+    command: /bin/bash
