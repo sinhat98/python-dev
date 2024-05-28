@@ -5,6 +5,7 @@ ARG DPCKER_WORKDIR /root/workspace
 # Install necessary system packages including git
 RUN apt update && apt install -y --no-install-recommends \
     python3-pip \
+    python3-dev \
     build-essential \
     openssh-client \
     sox \

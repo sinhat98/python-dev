@@ -11,6 +11,7 @@ torchvision = "*"
 torchaudio = "*"
 librosa = "^0.10.2.post1"
 onnxruntime = "^1.18.0"
+jupyterlab = "*"
 
 [build-system]
 requires = ["poetry-core"]

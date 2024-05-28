@@ -4,7 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/root
+      - .:/root/workspace
+      - /datadrive:/root/datadrive
     image: python-dev
     shm_size: 4gb
     ports:
