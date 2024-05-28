@@ -1,13 +1,15 @@
-# pythonのDockerfile
-FROM python:3.10-slim
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
 
-ARG DOCKER_WORKDIR=${DOCKER_WORKDIR:-"/app"}
-ENV PYTHONUNBUFFERED=1 \
-    C_FORCE_ROOT=1
+ARG DPCKER_WORKDIR /root/workspace
 
+# Install necessary system packages including git
 RUN apt update && apt install -y --no-install-recommends \
+    python3-pip \
     build-essential \
+    openssh-client \
     sox \
+    flac \
+    nkf \
     libsndfile1 \
     ffmpeg \
     portaudio19-dev \
@@ -22,24 +24,23 @@ RUN apt update && apt install -y --no-install-recommends \
     mecab-ipadic-utf8 \
     sudo \
     && apt clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s /usr/bin/python3 /usr/bin/python
+
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Add Poetry to PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+RUN mkdir -m 700 $HOME/.ssh && ssh-keyscan github.com > $HOME/.ssh/known_hosts
 
 WORKDIR ${DOCKER_WORKDIR}
 
 RUN pip install --no-cache-dir poetry==1.2.* && \
     poetry config virtualenvs.create false
 
+
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install
-
-RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
-    cd mecab-ipadic-neologd && \
-    ./bin/install-mecab-ipadic-neologd -n -y && \
-    echo dicdir = `mecab-config --dicdir`"/mecab-ipadic-neologd">/etc/mecabrc && \
-    sudo cp /etc/mecabrc /usr/local/etc && \
-    cd ..
-
-COPY . .
-
-RUN poetry install
+RUN --mount=type=ssh poetry install --no-root
