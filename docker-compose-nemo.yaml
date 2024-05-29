@@ -1,0 +1,22 @@
+services:
+  python-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile_nemo
+    working_dir: /root/workspace
+    volumes:
+      - .:/root/workspace
+      - /datadrive:/root/datadrive
+    image: python-dev
+    shm_size: 4gb
+    ports:
+      - "8888:8888"
+    platform: linux/amd64
+    stdin_open: true
+    tty: true
+    command: bash -c "git config --global --add safe.directory /root/workspace && bash"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
