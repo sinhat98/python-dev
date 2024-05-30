@@ -12,6 +12,8 @@ torchaudio = "*"
 librosa = "^0.10.2.post1"
 onnxruntime = "^1.18.0"
 jupyterlab = "*"
+editdistance = "^0.8.1"
+transformers = "^4.41.1"
 
 [build-system]
 requires = ["poetry-core"]

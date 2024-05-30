@@ -31,6 +31,11 @@ RUN apt update && apt install -y --no-install-recommends \
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
+# Install git-lfs
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install git-lfs && \
+    git lfs install
+
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
