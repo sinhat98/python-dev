@@ -6,14 +6,15 @@ authors = ["sinhat98 <sinhat897205@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-torch = "*"
-torchvision = "*"
-torchaudio = "*"
+torch = "^2.1"
+torchvision = "^0.18"
+torchaudio = "^2.3"
 librosa = "^0.10.2.post1"
 onnxruntime = "^1.18.0"
 jupyterlab = "*"
-editdistance = "^0.8.1"
-transformers = "^4.41.1"
+jiwer = "^3.0.4"
+mecab-python3 = "^1.0.9"
+ruff = "^0.4.7"
 
 [build-system]
 requires = ["poetry-core"]
